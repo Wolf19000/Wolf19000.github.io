@@ -74,7 +74,9 @@
   var fontsReady = document.fonts && document.fonts.load
     ? document.fonts.load('400 100px Anton', "AB")
     : Promise.resolve();
-  Promise.race([fontsReady, new Promise(function (r) { setTimeout(r, 1200); })]).then(boot);
+  /* The name must always appear, even if the font fails or never answers */
+  Promise.race([fontsReady, new Promise(function (r) { setTimeout(r, 1200); })]).then(boot, boot);
+  setTimeout(boot, 1500);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitLines);
 
   var resizeTimer;
